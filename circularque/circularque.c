@@ -26,7 +26,7 @@ void enqueue(queuetype* q, element item)
 {
     if (is_full(q))
     {
-        fprintf(stderr, "Å¥ Æ÷È­ ¿¡·¯");
+        fprintf(stderr, "í í¬í™” ì—ëŸ¬");
     }
     q->rear = (q->rear + 1) % MAX_QUEUE_SIZE;
     q->data[q->rear] = item;
@@ -49,11 +49,19 @@ element dequeue(queuetype* q)
 {
     if (is_empty(q))
     {
-        fprintf(stderr, "Å¥ ÀúÀå ¾ÈµÆÀ½ ¿¡·¯");
+        fprintf(stderr, "í ì €ì¥ ì•ˆëìŒ ì—ëŸ¬");
     }
     q->front = (q->front + 1) % MAX_QUEUE_SIZE;
     return q->data[q->front];
 }
+
+element peek_pos(queuetype* q, int pos)
+{
+    if (is_empty(q) || pos <= 0 || pos > MAX_QUEUE_SIZE)
+        return;
+    else return q->data[(q->front + pos) % MAX_QUEUE_SIZE];
+}
+
 int main(void)
 {
     queuetype q;
@@ -65,8 +73,10 @@ int main(void)
         printf("1. Input data and Enqueue\n");
         printf("2. Dequeue and print data\n");
         printf("3. Print data\n");
-        printf("4. Exit\n");
+        printf("4. Print data position you want\n");
+        printf("5. Exit\n");
         int input = 0;
+        int i = 0;
         printf("Select number: ");
         scanf("%d", &input);
         switch (input)
@@ -110,6 +120,15 @@ int main(void)
             queue_print(&q);
             break;
         case 4:
+            printf("ë³¼ ë°ì´í„°ì˜ ìœ„ì¹˜ë¥¼ ì…ë ¥í•˜ì‹œì˜¤: ");
+            scanf("%d", &i);
+            if (is_empty(&q)) {
+                printf("Queue is empty\n\n");
+                break;
+            }
+            printf("%d\n\n", peek_pos(&q, i));
+            break;
+        case 5:
             printf("Exit the program");
             return;
         }
